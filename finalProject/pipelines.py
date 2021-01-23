@@ -10,16 +10,16 @@ from itemadapter import ItemAdapter
 import pymysql
 class FinalprojectPipeline:
     def process_item(self, item, spider):
-        filmName = item['movieName']
+        filmName = item['movieName'].replace(u'\xa0', u' ').strip() #remove 'xa0'
         score = item['score']
         reviewNum = item['reviewNum']
-        releaseDate = item['releaseDate']
+        releaseDate = item['releaseDate'].replace('\n', ' ').strip()
         genre = item['genre']
-        runtime = item['runtime']
+        runtime = item['runtime'][0].strip() #error fixed
         director = item['director']
         stars = item['stars']
         writer = item['writer']
-        budget = item['budget']
+        budget = "No Record" if len(item['budget'])==0 else item['budget'][0].strip() # return "No Record" if nothing in list
         worldWideGross = item['worldWideGross']
         language = item['language']
         country = item['country']
@@ -28,13 +28,13 @@ class FinalprojectPipeline:
         #下面准备插入数据库
         #将以下四个数据插入film Table
 
-        filmName  #列名 filmName
-        runtime   #列名 runtime
-        releaseDate #列名 releaseDate
-        budget    #列名 budget
+        #filmName  #列名 filmName
+        #runtime   #列名 runtime
+        #releaseDate #列名 releaseDate
+        #budget    #列名 budget
 
         #将genre 插入 genres Table
-        genre    #列名 genre
+        #genre    #列名 genre
 
 
 
@@ -43,7 +43,8 @@ class FinalprojectPipeline:
         self.conn = pymysql.Connect()
         self.cursor = self.conn.cursor()
         try:
-            self.cursor.execute('')
+            sql = "INSERT INTO film (filmName,runtime,releaseDate,budget) VALUES ('%s','%s','%s','%s')"%(filmName,runtime,releaseDate,budget)
+            self.cursor.execute(sql)
             self.conn.commit()
         except Exception as e:
             print(e)
