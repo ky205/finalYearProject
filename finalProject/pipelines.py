@@ -40,7 +40,7 @@ class FinalprojectPipeline:
 
         conn = None
         cursor = None
-        self.conn = pymysql.Connect(host='172.104.163.123', port=3306, user='root', password='calvin', db='test')
+        self.conn = pymysql.Connect()
         self.cursor = self.conn.cursor()
         try:
             self.cursor.execute('')
