@@ -9,7 +9,7 @@ class ImdbSpider(CrawlSpider):
 
     rules = (
         Rule(LinkExtractor(allow=r'/?ref_=kw_li_tt'), callback='parse_item'),
-        Rule(LinkExtractor(allow=r'sort=moviemeter,asc&title_type=movie&explore=keywords&mode=detail&ref_=kw_nxt#main'),callback='parse_next', follow=True),
+        Rule(LinkExtractor(allow=r'ref_=kw_nxt#main'),callback='parse_next', follow=True),
     )
 
 
